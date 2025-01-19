@@ -5,7 +5,7 @@ In practice this means that if you're editing a file with treesitter language
 injections - think a markdown file with a python code chunk, or a HTML file with
 embedded javascript - the python/javascript portions of the files will be
 indented according to your indent settings for those languages; not according to
-your settings you have for markdown/HTML files.
+the settings you use for markdown/HTML.
 
 ![demo](https://github.com/user-attachments/assets/fcc3dd6e-8690-4f31-b858-b7481ccf0b66)
 
