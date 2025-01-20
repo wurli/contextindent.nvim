@@ -24,7 +24,6 @@ M.setup = function(opts)
             vim.bo.indentexpr = template:format(vim.bo.indentexpr)
         end
     })
-
 end
 
 ---Evaluate a vimscript function safely
