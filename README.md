@@ -19,6 +19,17 @@ have treesitter indentation enabled all the time.
 
 ## Installation
 
+``` lua
+print(vim.bo.indentexpr)
+```
+
+``` r
+print(
+  hi,
+  there
+)
+```
+
 Using lazy.nvim:
 
 ``` lua
