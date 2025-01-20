@@ -37,16 +37,16 @@ M.context_indent = function(buf_indentexpr)
         return safe_eval(buf_indentexpr) or -1
     end
 
-    local row, col = vim.fn.line(".") - 1, vim.fn.col(".")
-    local curr_ft = parser:language_for_range({ row, col, row, col + 1 }):lang()
+    local curr_ft = parser:language_for_range({ vim.v.lnum, 0, vim.v.lnum, 1 }):lang()
 
     if curr_ft == "" or curr_ft == vim.bo.filetype then
         return safe_eval(buf_indentexpr) or -1
     end
 
+    ---@as string
     local curr_indentexpr = vim.filetype.get_option(curr_ft, "indentexpr")
 
-    if curr_indentexpr == "" then
+    if curr_indentexpr == "" or type(curr_indentexpr) ~= "string" then
         return -1
     end
 
