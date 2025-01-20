@@ -9,6 +9,12 @@ the settings you use for markdown/HTML.
 
 ![demo](https://github.com/user-attachments/assets/fcc3dd6e-8690-4f31-b858-b7481ccf0b66)
 
+This plugin has a much more noticeable effect for files when treesitter
+indentation is *disabled*, since unlike vim syntax rules, treesitter indentation
+is already context-aware. That said, treesitter alone won't adjust the indent
+width based on language, so this plugin will still add some value even if you
+have treesitter indentation enabled all the time.
+
 **Note**: this plugin relies on treesitter for language detection.
 
 ## Installation
