@@ -28,6 +28,7 @@ end
 
 ---Evaluate a vimscript function safely
 ---@param x string the function to evaluate
+---@return any
 local safe_eval = function(x)
     local fn_name = x:gsub("%(%)$", "")
     local ok, res = pcall(function() return vim.fn[fn_name]() end)
@@ -39,6 +40,7 @@ end
 ---indentation, e.g. in markdown code blocks.
 ---
 ---@param buf_indentexpr string The 'original' |indentexpr| for the current buffer
+---@return number
 M.context_indent = function(buf_indentexpr)
     local parser_exists, parser = pcall(vim.treesitter.get_parser)
 
@@ -65,7 +67,7 @@ M.context_indent = function(buf_indentexpr)
     local indent         = safe_eval(curr_indentexpr)
     vim.bo.shiftwidth    = buf_shiftwidth
 
-    return indent
+    return indent or -1
 end
 
 return M
