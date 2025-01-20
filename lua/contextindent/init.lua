@@ -11,9 +11,20 @@ local config = { pattern = "*" }
 ---@param opts? ContextIndentConfig
 M.setup = function(opts)
     config = vim.tbl_extend("force", config, opts or {})
+
     vim.validate({
         pattern = { config.pattern, "string" }
     })
+
+    vim.api.nvim_create_autocmd("BufRead", {
+        pattern = config.pattern,
+        group = vim.api.nvim_create_augroup("contextindent", {}),
+        callback = function()
+            local template = 'v:lua.require("contextindent").context_indent("%s")'
+            vim.bo.indentexpr = template:format(vim.bo.indentexpr)
+        end
+    })
+
 end
 
 ---Evaluate a vimscript function safely
@@ -58,13 +69,5 @@ M.context_indent = function(buf_indentexpr)
     return indent
 end
 
-vim.api.nvim_create_autocmd("BufRead", {
-    pattern = config.pattern,
-    group = vim.api.nvim_create_augroup("contextindent", {}),
-    callback = function()
-        local template = 'v:lua.require("contextindent").context_indent("%s")'
-        vim.bo.indentexpr = template:format(vim.bo.indentexpr)
-    end
-})
-
 return M
+
