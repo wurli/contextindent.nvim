@@ -21,7 +21,9 @@ M.setup = function(opts)
         group = vim.api.nvim_create_augroup("contextindent", {}),
         callback = function()
             local template = 'v:lua.require("contextindent").context_indent("%s")'
-            vim.bo.indentexpr = template:format(vim.bo.indentexpr)
+            if vim.bo.indentexpr:find("nvim_treesitter") then
+              vim.bo.indentexpr = template:format(vim.bo.indentexpr)
+            end
         end
     })
 end
