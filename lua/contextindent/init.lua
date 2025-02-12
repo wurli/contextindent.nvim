@@ -27,11 +27,10 @@ M.setup = function(opts)
 end
 
 ---Evaluate a vimscript function safely
----@param x string the function to evaluate
+---@param expr string the function to evaluate
 ---@return any
-local safe_eval = function(x)
-    local fn_name = x:gsub("%(%)$", "")
-    local ok, res = pcall(function() return vim.fn[fn_name]() end)
+local safe_eval = function(expr)
+    local ok, res = pcall(vim.api.nvim_eval, expr)
     return ok and res or nil
 end
 
@@ -50,6 +49,11 @@ M.context_indent = function(buf_indentexpr)
     end
 
     local curr_ft = parser:language_for_range({ vim.v.lnum, 0, vim.v.lnum, 1 }):lang()
+    if curr_ft == "c_sharp" then
+      curr_ft = "cs"
+    elseif curr_ft == "powershell" then
+      curr_ft = "ps1"
+    end
 
     if curr_ft == "" or curr_ft == vim.bo.filetype then
         return safe_eval(buf_indentexpr) or -1
@@ -65,6 +69,11 @@ M.context_indent = function(buf_indentexpr)
     local buf_shiftwidth = vim.bo.shiftwidth
     vim.bo.shiftwidth    = vim.filetype.get_option(curr_ft, "shiftwidth")
     local indent         = safe_eval(curr_indentexpr)
+    if not indent then
+      -- load builtin indentexpr manually
+      vim.cmd(string.format("runtime! indent/%s.vim", curr_ft))
+      indent = safe_eval(curr_indentexpr)
+    end
     vim.bo.shiftwidth    = buf_shiftwidth
 
     return indent or -1
