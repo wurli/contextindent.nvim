@@ -31,6 +31,7 @@ end
 ---@return any
 local safe_eval = function(x)
     local fn_name = x:gsub("%(%)$", "")
+    if fn_name == "" then return end
     local ok, res = pcall(function() return vim.fn[fn_name]() end)
     return ok and res or nil
 end
