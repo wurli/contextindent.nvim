@@ -15,7 +15,7 @@ M.setup = function(opts)
     if vim.fn.has("nvim-0.11") == 1 then
         vim.validate("pattern", config.pattern, "string")
     else
-        vim.validate({ pattern = { config.pattern, "string" }, })
+        vim.validate({ pattern = { config.pattern, "string" } })
     end
 
     vim.api.nvim_create_autocmd("BufRead", {
