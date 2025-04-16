@@ -12,7 +12,11 @@ local config = { pattern = "*" }
 M.setup = function(opts)
     config = vim.tbl_extend("force", config, opts or {})
 
-    vim.validate("pattern", config.pattern, "string")
+    if vim.fn.has("nvim-0.11") == 1 then
+        vim.validate("pattern", config.pattern, "string")
+    else
+        vim.validate({ pattern = { config.pattern, "string" }, })
+    end
 
     vim.api.nvim_create_autocmd("BufRead", {
         pattern = config.pattern,
