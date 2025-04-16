@@ -12,9 +12,7 @@ local config = { pattern = "*" }
 M.setup = function(opts)
     config = vim.tbl_extend("force", config, opts or {})
 
-    vim.validate({
-        pattern = { config.pattern, "string" }
-    })
+    vim.validate("pattern", config.pattern, "string")
 
     vim.api.nvim_create_autocmd("BufRead", {
         pattern = config.pattern,
