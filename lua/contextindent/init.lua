@@ -28,17 +28,10 @@ M.setup = function(opts)
 	})
 end
 
----Evaluate a vimscript function safely
----@param x string the function to evaluate
+---@parem expr string
 ---@return any
-local safe_eval = function(x)
-	local fn_name = x:gsub("%(%)$", "")
-	if fn_name == "" then
-		return
-	end
-	local ok, res = pcall(function()
-		return vim.fn[fn_name]()
-	end)
+local safe_eval = function(expr)
+	local ok, res = pcall(vim.api.nvim_eval, expr)
 	return ok and res or nil
 end
 
